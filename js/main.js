@@ -6,8 +6,10 @@ document.addEventListener('DOMContentLoaded', function() {
         'timeLeftHours',
         'timeLeftMinutes',
         'timeLeftSeconds',
-        'compareDateTime',
-        'resetDateTime'
+        'nicknameText',
+        'editNicknameBtn',
+        'nicknameInput',
+        'saveNicknameBtn'
     ];
     
     for (const id of requiredElements) {
@@ -20,33 +22,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初始化设置
     initializeSettings();
     
+    // 初始化昵称
+    initializeNickname();
+    
     // 添加事件监听器
     addEventListeners();
     
     // 开始计算
     startCalculation();
-    
-    // 初始化日期时间选择器
-    const now = new Date();
-    const compareDateTime = document.getElementById('compareDateTime');
-    compareDateTime.value = now.toISOString().slice(0, 16);
-    
-    // 添加日期选择事件
-    compareDateTime.addEventListener('change', function() {
-        const selectedDate = new Date(this.value);
-        if (!isNaN(selectedDate.getTime())) {
-            window._customDate = selectedDate;
-            updateAll();
-        }
-    });
-    
-    // 添加重置按钮事件
-    document.getElementById('resetDateTime').addEventListener('click', function() {
-        window._customDate = null;
-        const now = new Date();
-        compareDateTime.value = now.toISOString().slice(0, 16);
-        updateAll();
-    });
 });
 
 // 初始化设置
@@ -65,11 +48,6 @@ function initializeSettings() {
         document.getElementById('workStartTime').value = settings.workStartTime;
         document.getElementById('workEndTime').value = settings.workEndTime;
         document.getElementById('hireDate').value = settings.hireDate;
-        
-        if (settings.workSchedule === 'custom') {
-            document.getElementById('customRestDaysGroup').style.display = 'block';
-            document.getElementById('customRestDays').value = settings.customRestDays;
-        }
     }
 }
 
@@ -116,12 +94,6 @@ function addEventListeners() {
         });
     });
     
-    // 休息制度切换事件
-    document.getElementById('workSchedule').addEventListener('change', function() {
-        const customGroup = document.getElementById('customRestDaysGroup');
-        customGroup.style.display = this.value === 'custom' ? 'block' : 'none';
-    });
-    
     // 设置表单提交事件
     document.getElementById('settingsForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -133,10 +105,6 @@ function addEventListeners() {
             workEndTime: document.getElementById('workEndTime').value,
             hireDate: document.getElementById('hireDate').value
         };
-        
-        if (settings.workSchedule === 'custom') {
-            settings.customRestDays = parseInt(document.getElementById('customRestDays').value);
-        }
         
         // 使用新的验证函数
         if (!validateSettings(settings)) {
@@ -464,4 +432,50 @@ function updateCurrentTime() {
 // 修改获取当前时间的方法
 function getCurrentDate() {
     return window._customDate || new Date();
+}
+
+// 初始化昵称
+function initializeNickname() {
+    const savedNickname = localStorage.getItem('userNickname');
+    if (savedNickname) {
+        document.getElementById('nicknameText').textContent = savedNickname;
+    }
+
+    // 编辑按钮点击事件
+    document.getElementById('editNicknameBtn').addEventListener('click', function() {
+        const nicknameDisplay = document.getElementById('nicknameDisplay');
+        const nicknameEdit = document.getElementById('nicknameEdit');
+        const nicknameInput = document.getElementById('nicknameInput');
+        const currentNickname = document.getElementById('nicknameText').textContent;
+        
+        nicknameDisplay.style.display = 'none';
+        nicknameEdit.style.display = 'block';
+        nicknameInput.value = currentNickname;
+        nicknameInput.focus();
+    });
+
+    // 保存按钮点击事件
+    document.getElementById('saveNicknameBtn').addEventListener('click', function() {
+        const nicknameInput = document.getElementById('nicknameInput');
+        const nicknameText = document.getElementById('nicknameText');
+        const nicknameDisplay = document.getElementById('nicknameDisplay');
+        const nicknameEdit = document.getElementById('nicknameEdit');
+        
+        const newNickname = nicknameInput.value.trim();
+        if (newNickname) {
+            nicknameText.textContent = newNickname;
+            localStorage.setItem('userNickname', newNickname);
+        }
+        
+        nicknameDisplay.style.display = 'inline-flex';
+        nicknameEdit.style.display = 'none';
+    });
+
+    // 输入框回车事件
+    document.getElementById('nicknameInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            document.getElementById('saveNicknameBtn').click();
+        }
+    });
 }
