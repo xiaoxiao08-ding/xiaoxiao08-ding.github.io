@@ -45,7 +45,7 @@ body {
 /* 时间段切换器样式 */
 .period-switcher {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
 }
 
 .period-btn {
@@ -67,7 +67,7 @@ body {
 .salary-display {
     text-align: center;
     position: relative;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
 }
 
 .amount {
@@ -232,6 +232,31 @@ body {
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 16px;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    background-color: #f8fbff;
+}
+
+.form-group input[type="date"]:focus,
+.form-group input[type="time"]:focus {
+    border-color: #007bff;
+    background-color: #f8fbff;
+}
+
+.form-group input[type="number"]:focus {
+    border-color: #007bff;
+    background-color: #f8fbff;
+}
+
+.form-group select:hover {
+    border-color: #0056b3;
+    cursor: pointer;
 }
 
 .form-actions {
@@ -363,13 +388,13 @@ body {
 
 /* 设置按钮容器 */
 .settings-container {
-    margin-bottom: 24px;
+    margin-bottom: 10px;
 } 
 
 /* 当前时间显示样式 */
 .current-time {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-size: 14px;
     color: #999;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -377,6 +402,88 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 8px;
+}
+
+/* 昵称显示区域样式 */
+.nickname-container {
+    text-align: center;
+    margin-bottom: 10px;
+    padding: 0 20px;
+    position: relative;
+}
+
+.nickname-display {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 4px;
+    position: relative;
+}
+
+.nickname-text {
+    font-size: 32px;
+    font-weight: 600;
+    color: #333;
+    transition: color 0.3s;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", sans-serif;
+    line-height: 1;
+}
+
+.edit-nickname-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    opacity: 0.6;
+    transition: all 0.3s;
+    color: #666;
+    display: flex;
+    align-items: flex-end;
+    height: 32px;
+    margin-left: 0;
+    margin-bottom: 0;
+}
+
+.edit-nickname-btn svg {
+    margin-bottom: 2px;
+}
+
+.edit-nickname-btn:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.nickname-edit {
+    margin-top: 12px;
+}
+
+.nickname-input {
+    padding: 8px 12px;
+    border: 2px solid #007bff;
+    border-radius: 6px;
+    font-size: 16px;
+    width: 200px;
+    margin-right: 8px;
+    transition: all 0.3s;
+}
+
+.nickname-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.save-nickname-btn {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.save-nickname-btn:hover {
+    background-color: #0056b3;
 }
 
 /* 本月工作日显示样式 */
@@ -447,4 +554,67 @@ body {
     content: '*';
     color: #dc3545;
     margin-left: 4px;
+} 
+
+/* 重置默认样式 */
+.form-group input[type="date"],
+.form-group input[type="time"],
+.form-group select {
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #fff;
+}
+
+/* 选择框的下拉箭头样式 */
+select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 24px;
+}
+
+/* 悬浮状态 */
+input[type="date"]:hover,
+input[type="time"]:hover,
+select:hover {
+    background-color: #e6f7ff;
+    border-color: #1890ff;
+}
+
+/* 选中状态 */
+input[type="date"]:focus,
+input[type="time"]:focus,
+select:focus {
+    background-color: #e6f7ff;
+    border-color: #1890ff;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+/* 下拉选项样式 */
+select option {
+    padding: 8px 12px;
+    background-color: #fff;
+}
+
+select option:hover {
+    background-color: #e6f7ff;
+}
+
+select option:checked {
+    background-color: #e6f7ff;
+    color: #1890ff;
+}
+
+/* 修改日期和时间选择器的内部按钮颜色 */
+.form-group input[type="date"]::-webkit-calendar-picker-indicator,
+.form-group input[type="time"]::-webkit-calendar-picker-indicator {
+    opacity: 0.65 !important;
+    cursor: pointer !important;
+}
+
+.form-group input[type="date"]:focus::-webkit-calendar-picker-indicator,
+.form-group input[type="time"]:focus::-webkit-calendar-picker-indicator {
+    opacity: 0.9 !important;
 } 
