@@ -16,12 +16,36 @@
     <div class="container">
         <!-- 当前时间显示 -->
         <div class="current-time">
+            <!-- 
+                暂时隐藏时间设置模块
+                TODO: 后续可能会重新启用此功能
+            -->
+            <!--
             <div class="date-selector">
                 <input type="datetime-local" id="compareDateTime" class="date-input">
                 <button id="resetDateTime" class="reset-btn">重置</button>
             </div>
+            -->
             <span id="currentDateTime">2024-01-01 00:00:00</span>
         </div>
+
+        <!-- 昵称显示区域 -->
+        <div class="nickname-container">
+            <div class="nickname-display" id="nicknameDisplay">
+                <span class="nickname-text" id="nicknameText">👷 搬砖打工人 💪</span>
+                <button class="edit-nickname-btn" id="editNicknameBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 20h9"></path>
+                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="nickname-edit" id="nicknameEdit" style="display: none;">
+                <input type="text" id="nicknameInput" class="nickname-input" placeholder="输入你的昵称" maxlength="12">
+                <button class="save-nickname-btn" id="saveNicknameBtn">保存</button>
+            </div>
+        </div>
+
         <!-- 时间段切换器 -->
         <div class="period-switcher">
             <button class="period-btn active" data-period="day">今日已赚</button>
@@ -81,31 +105,26 @@
             </div>
             <form id="settingsForm">
                 <div class="form-group">
-                    <label for="monthlySalary">月薪（元）</label>
+                    <label for="monthlySalary" class="required">月薪（元）</label>
                     <input type="number" id="monthlySalary" required>
                 </div>
                 <div class="form-group">
-                    <label for="workSchedule">休息制度</label>
+                    <label for="workSchedule" class="required">休息制度</label>
                     <select id="workSchedule" required>
                         <option value="5">双休</option>
                         <option value="6">单休</option>
-                        <option value="custom">自定义</option>
                     </select>
                 </div>
-                <div class="form-group" id="customRestDaysGroup" style="display: none;">
-                    <label for="customRestDays">每月休息天数</label>
-                    <input type="number" id="customRestDays" min="0" max="31">
-                </div>
                 <div class="form-group">
-                    <label for="workStartTime">上班时间</label>
+                    <label for="workStartTime" class="required">上班时间</label>
                     <input type="time" id="workStartTime" required>
                 </div>
                 <div class="form-group">
-                    <label for="workEndTime">下班时间</label>
+                    <label for="workEndTime" class="required">下班时间</label>
                     <input type="time" id="workEndTime" required>
                 </div>
                 <div class="form-group">
-                    <label for="hireDate">入职日期</label>
+                    <label for="hireDate" class="required">入职日期</label>
                     <input type="date" id="hireDate" required>
                 </div>
                 <div class="form-actions">
