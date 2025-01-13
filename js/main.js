@@ -52,6 +52,13 @@ document.addEventListener('DOMContentLoaded', function() {
 // 初始化设置
 function initializeSettings() {
     const settings = JSON.parse(localStorage.getItem('salarySettings'));
+    
+    // 如果没有设置数据，自动打开设置弹窗
+    if (!settings) {
+        document.getElementById('settingsModal').classList.add('show');
+        return;
+    }
+    
     if (settings) {
         document.getElementById('monthlySalary').value = settings.monthlySalary;
         document.getElementById('workSchedule').value = settings.workSchedule;
@@ -66,6 +73,23 @@ function initializeSettings() {
     }
 }
 
+// 添加设置表单验证
+function validateSettings(settings) {
+    if (!settings.monthlySalary || settings.monthlySalary <= 0) {
+        alert('请输入有效的月薪金额');
+        return false;
+    }
+    if (!settings.workStartTime || !settings.workEndTime) {
+        alert('请设置工作时间');
+        return false;
+    }
+    if (!settings.hireDate) {
+        alert('请设置入职日期');
+        return false;
+    }
+    return true;
+}
+
 // 添加事件监听器
 function addEventListeners() {
     // 设置按钮点击事件
@@ -75,6 +99,11 @@ function addEventListeners() {
     
     // 关闭按钮点击事件
     document.getElementById('closeModalBtn').addEventListener('click', function() {
+        // 如果是首次访问（没有设置），不允许关闭
+        if (!localStorage.getItem('salarySettings')) {
+            alert('请先完成基本设置');
+            return;
+        }
         document.getElementById('settingsModal').classList.remove('show');
     });
     
@@ -109,9 +138,8 @@ function addEventListeners() {
             settings.customRestDays = parseInt(document.getElementById('customRestDays').value);
         }
         
-        // 验证数据有效性
-        if (!settings.monthlySalary || settings.monthlySalary <= 0) {
-            alert('请输入有效的月薪金额');
+        // 使用新的验证函数
+        if (!validateSettings(settings)) {
             return;
         }
         
